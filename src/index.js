@@ -3,7 +3,7 @@
    Main orchestrator: scheduler + pipeline
    ======================================== */
 
-import { readFileSync } from 'fs';
+import { readFileSync, existsSync, mkdirSync } from 'fs';
 import { join, dirname } from 'path';
 import { fileURLToPath } from 'url';
 import cron from 'node-cron';
@@ -19,6 +19,10 @@ import {
 import { CRON_SCHEDULE } from './config.js';
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
+
+// ========== Ensure data dir exists ==========
+const dataDir = join(__dirname, '..', 'data');
+if (!existsSync(dataDir)) mkdirSync(dataDir, { recursive: true });
 
 // ========== Load .env manually ==========
 function loadEnv() {
